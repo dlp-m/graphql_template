@@ -1,16 +1,27 @@
 # Template graphql tymate
  based on :
  https://www.notion.so/tymate/How-to-start-up-a-project-from-scratch-with-GraphQL-32411f8a34b94198a3a6e6083cb332f1
+# How to use it ?
 
- - setup basics gem
+- 1) first go in your stack path
+- 2) run `mkdir rails_templates; cd rails_templates`
+- 3) run `git clone git@github.com:tymate/graphql_template.git`
+- 4) run `cd ..`
+- 5) run `rails new mon_project_api --database=postgresql -m rails_templates/graphql_template/setup.rb`
+
+# what does it do
+- setup basics gem
 - setup graphql
 - setup annotate
 - setup rubocop
 - setup doorkeerper
 - setup clearance
-- setup rspec wiith basic tests ( current_user and refresh token )
+- setup rspec with basic tests for current_user(graphql query) and refresh token(rest)
 - chore
+
+
 ## TODO:
 - [ ] fix gems versions ?
-- [ ] chose `current_user` implementation
+- [ ] chose implementation together and refacto with `inject_into_file` or `gsub_file`
 - [ ] add conditional setup ? ex "Would you like to install Clearance ?"
+- [ ] add one graphql mutation test ex: update user password

@@ -29,6 +29,6 @@ def configure_graphql
   text = File.read(file)
   new_contents = text.gsub(/ProjectApi/, "#{@app_const_base}")
   File.open(file, "w") {|f| f.puts new_contents }
-  system "bundle exec rails db:create db:migrate"
+  system "bundle exec rails db:drop db:create db:migrate"
   system "git add . ; git commit -m 'feat: configure graphql'"
 end
