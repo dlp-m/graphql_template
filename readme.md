@@ -3,11 +3,11 @@
  https://www.notion.so/tymate/How-to-start-up-a-project-from-scratch-with-GraphQL-32411f8a34b94198a3a6e6083cb332f1
 # How to use it ?
 
-- 1) first go in your stack path
-- 2) run `mkdir rails_templates; cd rails_templates`
-- 3) run `git clone git@github.com:tymate/graphql_template.git`
-- 4) run `cd ..`
-- 5) run `rails new mon_project_api --database=postgresql -m rails_templates/graphql_template/setup.rb`
+- first go in your stack path
+- run `mkdir rails_templates; cd rails_templates`
+- run `git clone git@github.com:tymate/graphql_template.git`
+- run `cd ..`
+- run `rails new mon_project_api --database=postgresql -m rails_templates/graphql_template/setup.rb`
 
 # what does it do
 - setup basics gem
