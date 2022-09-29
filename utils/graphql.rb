@@ -4,7 +4,6 @@ def configure_graphql
   gem 'graphql_playground-rails'
   gem 'graphql-rails_logger'
   system "bundle install"
-  route "mount GraphqlPlayground::Rails::Engine, at: '/graphql_playground', graphql_path: '/graphql' if Rails.env.development? "
   remove_file "app/graphql/types/node_type.rb"
   %w[
     app/controllers/api_controller.rb
@@ -30,5 +29,6 @@ def configure_graphql
   new_contents = text.gsub(/ProjectApi/, "#{@app_const_base}")
   File.open(file, "w") {|f| f.puts new_contents }
   system "bundle exec rails db:drop db:create db:migrate"
+  create_or_replace_file('config/routes.rb')
   system "git add . ; git commit -m 'feat: configure graphql'"
 end
