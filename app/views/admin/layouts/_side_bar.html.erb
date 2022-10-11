@@ -1,0 +1,4 @@
+<%= render(SidebarComponent.new) do |sidebar| %>
+  <%= sidebar.with_item(path: admin_users_path, icon: Icons::UsersComponent, label: "Utilisateurs") %>
+  <%= sidebar.with_current_user_card(user: current_user) %>
+<% end %>

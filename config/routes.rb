@@ -6,4 +6,8 @@ Rails.application.routes.draw do
        use_doorkeeper
      end
    end
+  # bo
+  namespace :admin do
+    resources :users
+  end
 end

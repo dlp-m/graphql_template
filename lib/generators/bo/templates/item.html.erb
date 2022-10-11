@@ -1,0 +1,24 @@
+<%%= render(FormComponent.new(item: <%= class_name.downcase %>)) do |form| %>
+  <%%
+    current_page = if <%= class_name.downcase
+  %>.persisted?
+                     { label: "Détails", path: admin_<%= class_name.downcase %>_path(<%= class_name.downcase %>) }
+                   else
+                     { label: "Nouvelle <%= class_name.downcase %>", path: new_admin_<%= class_name.downcase %>_path }
+                   end
+    form.with_title(<%= class_name.downcase %>.persisted? ? <%= class_name.downcase %>.id : 'Nouvelle <%= class_name.downcase %>')
+    form.with_breadcrumb([
+          { label: 'Étapes', path: admin_<%= class_name.pluralize.downcase %>_path },
+          current_page
+        ])
+  %>
+    <br>
+    <%%= simple_form_for [:admin, <%= class_name.downcase %>], html: { class: "<%= class_name.downcase %> form" } do |f| %>
+      <% class_name.constantize.column_names.each do |column| %>
+      <% next if excluded_columns.include?(column.to_sym) %>
+      <%%= f.input :<%= column %> %>
+      <% end %>
+      <%%= render(Forms::SubmitButtonComponent.new) %>
+    <%% end %>
+
+<%% end %>

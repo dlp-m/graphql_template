@@ -6,8 +6,10 @@ require_relative 'utils/annotate.rb'
 require_relative 'utils/rubocop.rb'
 require_relative 'utils/doorkeeper.rb'
 require_relative 'utils/clearance.rb'
+require_relative 'utils/bo.rb'
 require_relative 'utils/rspec.rb'
 require_relative 'utils/chore.rb'
+require 'pry'
 def source_paths
   [__dir__]
 end
@@ -21,4 +23,5 @@ configure_annotate
 configure_rubocop
 configure_clearance
 configure_rspec
+configure_bo if yes?("add bo ?")
 chore

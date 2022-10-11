@@ -5,20 +5,13 @@ def configure_graphql
   gem 'graphql-rails_logger'
   system "bundle install"
   remove_file "app/graphql/types/node_type.rb"
+  create_or_replace_folders(Dir["#{source_paths.first}/app/graphql/*"])
   %w[
     app/controllers/api_controller.rb
     app/controllers/graphql_controller.rb
-    app/graphql/types/query_type.rb
-    app/graphql/types/user_type.rb
     config/initializers/graphql_rails_logger.rb
-    app/graphql/resolvers/base_resolver.rb
     app/policies/application_policy.rb
     app/policies/user_policy.rb
-    app/graphql/mutations/base_mutation.rb
-    app/graphql/types/base_object.rb
-    app/graphql/types/base_type.rb
-    app/graphql/current_user_context.rb
-    app/graphql/types/base_connection.rb
   ].each do |file|
     create_or_replace_file(file)
   end
