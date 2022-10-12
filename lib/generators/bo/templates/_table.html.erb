@@ -10,10 +10,10 @@
     <%% @<%= class_name.downcase.pluralize %>&.each_with_index do |<%= class_name.downcase %>, i| %>
       <%%= tbody.with_tr(index: i) do |tr| %>
         <% class_name.constantize.column_names.each do |column| %>
-          <%%= tr.with_td { <%= class_name.downcase %>.<%= column %> } %>
+          <%%= tr.with_td { <%= class_name.downcase %>.<%= column %>.to_s } %>
         <% end %>
         <%%= tr.with_td do %>
-          <%%= link_to admin_<%= class_name.downcase.pluralize %>_path(<%= class_name.downcase %>), class: "text-indigo-600 hover:text-indigo-900"  do %>
+          <%%= link_to admin_<%= class_name.downcase %>_path(<%= class_name.downcase %>), class: "text-indigo-600 hover:text-indigo-900"  do %>
             Détails
           <%% end %>
         <%% end %>

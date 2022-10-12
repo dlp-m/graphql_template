@@ -13,9 +13,6 @@ RSpec.describe Types::QueryType, type: :request do
         5.times do
           Fabricate(:<%= class_name.downcase %>)
         end
-        5.times do
-          Fabricate(:<%= class_name.downcase %>)
-        end
         do_graphql_request
       end
 
@@ -26,11 +23,10 @@ RSpec.describe Types::QueryType, type: :request do
     end
   end
 
-#   describe 'when unauthenticated' do
-#     before do
-#       do_graphql_request
-#     end
-
-#     include_examples 'when unauthenticated'
-#   end
+  RSpec.shared_examples 'when unauthenticated' do
+    it 'returns an error' do
+      expect(errors).to be_present
+      expect(errors.dig(0, 'extensions', 'code')).to eq('unauthorized')
+    end
+  end
 end

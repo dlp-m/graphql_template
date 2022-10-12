@@ -1,4 +1,16 @@
 class ApplicationPolicy < ActionPolicy::Base
+  authorize :doorkeeper_token
+  authorize :user
+
+  pre_check :authenticated?
+
+  def authenticated?
+    deny! if doorkeeper_token.nil?
+  end
+
+  def index?
+    true
+  end
   # Configure additional authorization contexts here
   # (`user` is added by default).
   #

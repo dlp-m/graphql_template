@@ -17,7 +17,14 @@ class BoGenerator < Rails::Generators::NamedBase
     template 'controller.rb', File.join('app/controllers/admin', "#{file_name.pluralize}_controller.rb")
   end
 
-  private 
+  # private
+  def model_columns
+     class_name.constantize.column_names.map(&:to_sym)
+  end
+
+  def permited_columns
+    model_columns - excluded_columns
+  end
 
   def excluded_columns
     %i[id created_at updated_at]
