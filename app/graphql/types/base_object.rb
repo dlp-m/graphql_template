@@ -4,8 +4,11 @@ module Types
   class BaseObject < GraphQL::Schema::Object
     edge_type_class(Types::BaseEdge)
     connection_type_class(Types::BaseConnection)
+
     field_class Types::BaseField
+
     include ActionPolicy::GraphQL::Behaviour
+    include ActionPolicyExtensions
     include CurrentUserContext
   end
 end

@@ -45,11 +45,10 @@ RSpec.describe Types::QueryType, type: :request do
       end
     end
 
-    context 'without access_token' do
-      it 'cannot get details of a current user' do
-        do_graphql_request
-        expect(errors).to be_blank
-        expect(json.deep_symbolize_keys.dig(:data, :currentUser)).to be_nil
+    RSpec.shared_examples 'when unauthenticated' do
+      it 'returns an error' do
+        expect(errors).to be_present
+        expect(errors.dig(0, 'extensions', 'code')).to eq('unauthorized')
       end
     end
   end
