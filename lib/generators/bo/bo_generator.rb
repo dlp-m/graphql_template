@@ -10,7 +10,7 @@ class BoGenerator < Rails::Generators::NamedBase
     # First argument is the name of the template
     # Second argument is where to create the resulting file. In this case, app/bo/my_bo.rb
     template 'new.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/new.html.erb")
-    template 'item.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/_#{file_name.downcase}.html.erb")
+    template 'item.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/_#{file_name.underscore}.html.erb")
     template 'index.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/index.html.erb")
     template '_table.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/_table.html.erb")
     template 'show.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/show.html.erb")

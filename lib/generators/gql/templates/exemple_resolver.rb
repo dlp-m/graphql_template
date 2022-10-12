@@ -4,7 +4,7 @@ module Resolvers
   class <%= class_name %>Resolver < BaseResolver
     include SearchObject.module(:graphql)
 
-    description 'Search resolver for <%= class_name.downcase %>'
+    description 'Search resolver for <%= class_name.underscore %>'
 
     type Types::<%= class_name %>Type.connection_type, null: false
 

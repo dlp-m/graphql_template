@@ -3,6 +3,8 @@ def configure_graphql
   system "rails generate graphql:install"
   gem 'graphql_playground-rails'
   gem 'graphql-rails_logger'
+  gem 'dry-effects'
+
   system "bundle install"
   remove_file "app/graphql/types/node_type.rb"
   create_or_replace_folders(Dir["#{source_paths.first}/app/graphql/*"])

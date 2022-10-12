@@ -4,19 +4,19 @@ require 'rails_helper'
 
 RSpec.describe Types::QueryType, type: :request do
 
-  let(:query) { '<%= class_name.downcase %>s' }
-  let(:data) { json.dig('data', '<%= class_name.downcase %>s', 'nodes') }
+  let(:query) { '<%= class_name.camelize(:lower) %>s' }
+  let(:data) { json.dig('data', '<%= class_name.camelize(:lower) %>s', 'nodes') }
 
   describe 'thematics' do
     it_behaves_like 'with standard user' do
       before do
         5.times do
-          Fabricate(:<%= class_name.downcase %>)
+          Fabricate(:<%= class_name.underscore %>)
         end
         do_graphql_request
       end
 
-      it 'get a <%= class_name.downcase %>s list' do
+      xit 'get a <%= class_name.underscore %>s list' do
         expect(errors).to be_blank
         expect(data.size).to eq(5)
       end

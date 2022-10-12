@@ -1,9 +1,9 @@
 <%%= render(IndexComponent.new) do |index| %>
   <%%= index.with_header(
-    title: t('headers.index.<%= class_name.downcase %>.title'),
-    subtitle: t('headers.index.<%= class_name.downcase %>.subtitle')
+    title: t('headers.index.<%= class_name.underscore %>.title'),
+    subtitle: t('headers.index.<%= class_name.underscore %>.subtitle')
       ) do |header| %>
-    <%%= header.with_add_button(path: new_admin_<%= class_name.downcase %>_path) %>
+    <%%= header.with_add_button(path: new_admin_<%= class_name.underscore %>_path) %>
   <%% end %>
   <%%= render('table') %>
 <%% end %>

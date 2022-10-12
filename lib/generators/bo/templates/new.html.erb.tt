@@ -1,1 +1,1 @@
-<%%= render "<%= class_name.downcase %>", <%= class_name.downcase %>: @<%= class_name.downcase %> %>
+<%%= render "<%= class_name.underscore %>", <%= class_name.underscore %>: @<%= class_name.underscore %> %>
