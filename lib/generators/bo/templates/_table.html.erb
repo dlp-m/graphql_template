@@ -12,7 +12,7 @@
           <%%= tr.with_td { <%= class_name.underscore %>.<%= column %>.to_s } %>
         <% end %>
         <%%= tr.with_td do %>
-          <%%= link_to admin_<%= class_name.underscore.pluralize %>_path(<%= class_name.underscore %>), class: "text-indigo-600 hover:text-indigo-900"  do %>
+          <%%= link_to admin_<%= class_name.underscore %>_path(<%= class_name.underscore %>), class: "text-indigo-600 hover:text-indigo-900"  do %>
             Détails
           <%% end %>
         <%% end %>
