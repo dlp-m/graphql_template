@@ -4,7 +4,6 @@ def configure_bo
   gem 'tailwindcss-rails', '~> 2.0'
   gem 'simple_form', '~> 5.1.0'
   gem 'simple_form-tailwind'
-  gem 'importmap-rails'
   gem_group :development, :test do
     gem 'hotwire-livereload'
   end
