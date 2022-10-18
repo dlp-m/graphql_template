@@ -2,7 +2,7 @@
 
 class BoGenerator < Rails::Generators::NamedBase
   source_root File.expand_path('templates', __dir__)
-
+  load "#{Rails.root}/lib/generators/bo/utils/translations.rb"
   check_class_collision suffix: 'bo'
 
   def create_bo_file
@@ -15,11 +15,11 @@ class BoGenerator < Rails::Generators::NamedBase
     template '_table.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/_table.html.erb")
     template 'show.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/show.html.erb")
     template 'controller.rb', File.join('app/controllers/admin', "#{file_name.pluralize}_controller.rb")
+    create_translations()
   end
 
-  # private
   def model_columns
-     class_name.constantize.column_names.map(&:to_sym)
+    class_name.constantize.column_names.map(&:to_sym)
   end
 
   def permited_columns

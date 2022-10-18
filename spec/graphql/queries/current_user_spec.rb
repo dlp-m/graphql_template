@@ -45,11 +45,12 @@ RSpec.describe Types::QueryType, type: :request do
       end
     end
 
-    RSpec.shared_examples 'when unauthenticated' do
-      it 'returns an error' do
-        expect(errors).to be_present
-        expect(errors.dig(0, 'extensions', 'code')).to eq('unauthorized')
+    describe 'when unauthenticated' do
+      before do
+        do_graphql_request
       end
+
+      include_examples 'when unauthenticated'
     end
   end
 end

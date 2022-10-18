@@ -9,7 +9,7 @@ require_relative 'utils/clearance.rb'
 require_relative 'utils/bo.rb'
 require_relative 'utils/rspec.rb'
 require_relative 'utils/chore.rb'
-require 'pry'
+
 def source_paths
   [__dir__]
 end

@@ -1,9 +1,12 @@
 <%%= render(IndexComponent.new) do |index| %>
   <%%= index.with_header(
-    title: t('headers.index.<%= class_name.underscore %>.title'),
-    subtitle: t('headers.index.<%= class_name.underscore %>.subtitle')
+    title: I18n.t('bo.<%= class_name.underscore %>.others'),
+    subtitle: I18n.t('bo.<%= class_name.underscore %>.subtitle'),
       ) do |header| %>
     <%%= header.with_add_button(path: new_admin_<%= class_name.underscore %>_path) %>
   <%% end %>
   <%%= render('table') %>
+  <div class="py-2">
+    <%%== pagy_nav(@pagy) %>
+  </div>
 <%% end %>

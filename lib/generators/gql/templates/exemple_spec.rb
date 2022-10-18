@@ -7,7 +7,7 @@ RSpec.describe Types::QueryType, type: :request do
   let(:query) { '<%= class_name.camelize(:lower) %>s' }
   let(:data) { json.dig('data', '<%= class_name.camelize(:lower) %>s', 'nodes') }
 
-  describe 'thematics' do
+  describe '<%= class_name.underscore %>' do
     it_behaves_like 'with standard user' do
       before do
         5.times do
@@ -23,10 +23,11 @@ RSpec.describe Types::QueryType, type: :request do
     end
   end
 
-  RSpec.shared_examples 'when unauthenticated' do
-    it 'returns an error' do
-      expect(errors).to be_present
-      expect(errors.dig(0, 'extensions', 'code')).to eq('unauthorized')
+  describe 'when unauthenticated' do
+    before do
+      do_graphql_request
     end
+
+    include_examples 'when unauthenticated'
   end
 end

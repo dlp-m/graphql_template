@@ -14,11 +14,19 @@
   %>
     <br>
     <%%= simple_form_for [:admin, <%= class_name.underscore %>], html: { class: "<%= class_name.underscore %> form" } do |f| %>
-      <% class_name.constantize.column_names.each do |column| %>
-      <% next if excluded_columns.include?(column.to_sym) %>
+      <!-- Model columns --> 
+      <%- class_name.constantize.column_names.each do |column| -%>
+      <%- next if excluded_columns.include?(column.to_sym) || class_name.constantize.reflect_on_all_associations.map(&:foreign_key).include?(column) -%>
       <%%= f.input :<%= column %> %>
-      <% end %>
+      <%- end -%>
+      <!-- belongs_to Associations -->
+      <%- class_name.constantize.reflect_on_all_associations(:belongs_to).each do |association| -%>
+      <%%= f.input :<%= association.foreign_key %>, collection: <%= association.klass.name.constantize %>.all %>
+      <%- end -%>
+      <!-- has_one Associations -->
+      <%- class_name.constantize.reflect_on_all_associations(:has_one).each do |association| -%>
+      <%%= f.input :<%= association.foreign_key %>, collection: <%= association.klass.name.constantize %>.all %>
+      <%- end -%>
       <%%= render(Forms::SubmitButtonComponent.new) %>
     <%% end %>
-
 <%% end %>

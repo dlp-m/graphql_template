@@ -7,7 +7,9 @@
 - run `mkdir rails_templates; cd rails_templates`
 - run `git clone git@github.com:tymate/graphql_template.git`
 - run `cd ..`
-- run `rails new mon_project_api --database=postgresql -m rails_templates/graphql_template/setup.rb`
+- run `chruby 3.1.2` or newest
+- install rails version for the project
+- run `rails _5.2.3_ new mon_project_api --database=postgresql -m rails_templates/graphql_template/setup.rb`
 
 # what does it do
 - setup basics gem
@@ -16,12 +18,13 @@
 - setup rubocop
 - setup doorkeerper
 - setup clearance
+- setup bo if needed
 - setup rspec with basic tests for current_user(graphql query) and refresh token(rest)
 - chore
-
 
 ## TODO:
 - [ ] fix gems versions ?
 - [ ] chose implementation together and refacto with `inject_into_file` or `gsub_file`
 - [ ] add conditional setup ? ex "Would you like to install Clearance ?"
-- [ ] add one graphql mutation test ex: update user password
+- [ ] clean css files ( import ect ...)
+- [ ] clean html files
