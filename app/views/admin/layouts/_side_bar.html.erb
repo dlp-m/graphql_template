@@ -1,4 +1,15 @@
 <%= render(SidebarComponent.new) do |sidebar| %>
   <%= sidebar.with_item(path: admin_users_path, icon: Icons::UsersComponent, label: "Utilisateurs") %>
+  <%=  sidebar.with_item(path:  admin_administrators_path , icon:  Icons::UsersComponent, label:  "Admin") %>
+  <%=  sidebar.with_item(path:  admin_thematics_path , icon:  Icons::CollectionComponent, label:  "Thematic") %>
+  <%=  sidebar.with_item(path:  admin_swipe_cards_path , icon:  Icons::CollectionComponent, label:  "Swipe") %>
+  <%=  sidebar.with_item(path:  admin_questions_path , icon:  Icons::CollectionComponent, label:  "Question") %>
+  <%=  sidebar.with_item(path:  admin_choices_path , icon:  Icons::CollectionComponent, label:  "Choice") %>
+  <%=  sidebar.with_item(path:  admin_answers_path , icon:  Icons::CollectionComponent, label:  "Answers") %>
+  <%=  sidebar.with_item(path:  admin_categories_path , icon:  Icons::CollectionComponent, label:  "Categories") %>
+  <%=  sidebar.with_item(path:  admin_frequently_asked_questions_path , icon:  Icons::CollectionComponent, label:  "Faq") %>
+  <%=  sidebar.with_item(path:  admin_swipe_cards_path , icon:  Icons::CollectionComponent, label:  "Swipe") %>
+  <%=  sidebar.with_item(path:  admin_terms_path , icon:  Icons::CollectionComponent, label:  "Cgu") %>
+  <%=  sidebar.with_item(path:  admin_testimonials_path , icon:  Icons::CollectionComponent, label:  "Testimonials") %>
   <%= sidebar.with_current_user_card(user: current_user) %>
 <% end %>

@@ -8,6 +8,21 @@ Rails.application.routes.draw do
    end
   # bo
   namespace :admin do
+    root to: "thematics#index"
     resources :users
+    resources  :administrators
+    resources  :thematics
+    resources  :questions
+    resources  :choices
+    resources  :answers
+    resources  :categories
+    resources  :devices
+    resources  :feeds
+    resources  :frequently_asked_questions
+    resources  :swipe_cards
+    resources  :swipe_cards_users
+    resources  :terms
+    resources  :testimonials
+    resources  :thematic_users
   end
 end

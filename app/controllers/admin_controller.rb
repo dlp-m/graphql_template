@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AdminController < ApplicationController
+  include Pagy::Backend
   layout 'admin'
   # include Clearance::Controller
   before_action :require_login

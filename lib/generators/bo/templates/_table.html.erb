@@ -1,16 +1,16 @@
 <%%= render(Tables::TableComponent.new) do |table| %>
   <%% table.with_thead do |thead| %>
-  <% class_name.constantize.column_names.each do |column| %>
-    <%%= thead.with_th { t("<%= class_name.underscore %>.attributes.<%= column %>") } %>
-  <% end %>
+  <%- class_name.constantize.column_names.each do |column| -%>
+    <%%= thead.with_th { I18n.t("bo.<%= class_name.underscore %>.attributes.<%= column %>") } %>
+  <%- end -%>
   <%% end %>
 
   <%% table.with_tbody do |tbody| %>
     <%% @<%= class_name.underscore.pluralize %>&.each_with_index do |<%= class_name.underscore %>, i| %>
       <%%= tbody.with_tr(index: i) do |tr| %>
-        <% class_name.constantize.column_names.each do |column| %>
-          <%%= tr.with_td { <%= class_name.underscore %>.<%= column %>.to_s } %>
-        <% end %>
+        <%- class_name.constantize.column_names.each do |column| -%>
+          <%%= tr.with_td { <%= class_name.underscore %>.<%= column %>.to_s } -%>
+        <%- end -%>
         <%%= tr.with_td do %>
           <%%= link_to admin_<%= class_name.underscore %>_path(<%= class_name.underscore %>), class: "text-indigo-600 hover:text-indigo-900"  do %>
             Détails
@@ -24,8 +24,6 @@
           <%% end %>
         <%% end %>
       <%% end %>
-
     <%% end %>
-
   <%% end %>
 <%% end %>
