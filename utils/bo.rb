@@ -1,10 +1,10 @@
 def configure_bo
   custom_log(__method__)
   gem 'view_component'
-  gem 'tailwindcss-rails', '~> 2.0'
-  gem 'simple_form', '~> 5.1.0'
+  gem 'tailwindcss-rails'
+  gem 'simple_form'
   gem 'simple_form-tailwind'
-  gem 'pagy', '~> 5.10'
+  gem 'pagy'
   gem_group :development, :test do
     gem 'hotwire-livereload'
   end
@@ -17,14 +17,14 @@ def configure_bo
     create_or_replace_file(file)
   end
   [
-    '/app/helpers/*',
-     '/app/javascript/*',
-     'app/views/*',
-     'app/components/*',
-     '/lib/generators/*',
-      '/app/assets/stylesheets/*'
-     ].each do |folder|
-    create_or_replace_folders(folder)
+    'app/helpers/*',
+    'app/javascript/*',
+    'app/views/*',
+    'app/components/*',
+    'lib/generators/*',
+    'app/assets/stylesheets/*'
+  ].each do |folder|
+    create_or_replace_folders(Dir["#{source_paths.first}/#{folder}"])
   end
  
   file = "app/views/layouts/admin.html.erb"
