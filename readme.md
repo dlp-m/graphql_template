@@ -9,7 +9,7 @@
 - run `cd ..`
 - run `chruby 3.1.2` or newest
 - install rails version for the project
-- run `rails _5.2.3_ new mon_project_api --database=postgresql -m rails_templates/graphql_template/setup.rb`
+- run `rails _7.0.4_ new mon_project_api --database=postgresql -m rails_templates/graphql_template/setup.rb`
 
 # what does it do
 - setup basics gem
