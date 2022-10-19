@@ -11,6 +11,9 @@ def configure_bo
   system 'bin/setup'
   system 'rails tailwindcss:install'
   ['app/controllers/admin_controller.rb',
+   'app/controllers/concerns/filterable.rb',
+   'app/models/application_record.rb',
+   'app/models/concerns/filterable_concern.rb',
    'config/initializers/simple_form_tailwind.rb',
    'config/tailwind.config.js'
   ].each do |file|

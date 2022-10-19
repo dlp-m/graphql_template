@@ -1,0 +1,4 @@
+<th id="<%= @column_name %>" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hover:cursor-pointer">
+    <%= build_order_link(column: @column_name, label: @label) %>
+    <%= sort_indicator if session.dig(@filters, 'column') == @column_name %>
+</th>

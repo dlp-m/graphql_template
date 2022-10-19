@@ -1,7 +1,7 @@
 <%%= render(Tables::TableComponent.new) do |table| %>
   <%% table.with_thead do |thead| %>
   <%- class_name.constantize.column_names.each do |column| -%>
-    <%%= thead.with_th { I18n.t("bo.<%= class_name.underscore %>.attributes.<%= column %>") } %>
+    <%%= thead.with_active_record_th(column_name: '<%= column %>', resource_name: '<%= class_name.underscore %>' ) %>
   <%- end -%>
   <%% end %>
 

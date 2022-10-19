@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 module FlashHelper
-  # todo remove me and create a custom administrator authentification
-	def current_user
-		OpenStruct.new(email:  "michel@tymate.com")
-	end
+  # TODO: remove me and create a custom administrator authentification
+  def current_user
+    OpenStruct.new(email: 'michel@tymate.com')
+  end
 
   def classes_for_flash(key)
     if %w[error alert].include?(key)
-      'red'
+      'bg-red-100 text-red-700'
     else
-      'green'
+      'bg-green-50 text-green-700'
     end
   end
 end

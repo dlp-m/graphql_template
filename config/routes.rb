@@ -10,9 +10,13 @@ Rails.application.routes.draw do
   end
   # bo
   root to: 'admin/users#index'
-
+  concern :filterable do
+    collection do
+      get :filter
+    end
+  end
   namespace :admin do
-    root to: 'users#index'
-    resources :users
+    root to:  'admin/users#index'
+    resources :users, concerns: [:filterable]
   end
 end
