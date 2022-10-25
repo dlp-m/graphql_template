@@ -6,7 +6,7 @@ module Types
 
     field :path, [String], null: false
     field :message, String, null: false
-    field :attributes, String, null: false
+    field :attribute, String, null: false
     field :error, String, null: true
   end
 end
