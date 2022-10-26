@@ -3,3 +3,28 @@ query currentUser {
     email
   }
 }
+
+fragment errorFields on ValidationError {
+  path
+  message
+  attribute
+  error
+}
+
+mutation forgotPassword($input: ForgotPasswordInput!) {
+  forgotPassword(input: $input) {
+    done
+    errors {
+      ...errorFields
+    }
+  }
+}
+
+mutation resetPassword($input: ResetPasswordInput!) {
+  resetPassword(input: $input) {
+    passwordReset
+    errors {
+      ...errorFields
+    }
+  }
+}
