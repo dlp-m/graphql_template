@@ -12,7 +12,7 @@ RSpec.describe Types::QueryType, type: :request do
 
         expect(errors).to be_blank
 
-        data = json.deep_symbolize_keys.dig(:data, :currentUser)
+        data = json.dig(:data, :currentUser)
         expect(data).to include(:email)
 
         expect(data[:email]).to eq(user.email)
@@ -26,8 +26,8 @@ RSpec.describe Types::QueryType, type: :request do
 
         it 'returns a localized error' do
           expect(errors).to be_present
-          expect(errors.dig(0, 'message')).to match(/The access token expired/)
-          expect(errors.dig(0, 'extensions', 'code')).to eq('unauthorized')
+          expect(errors.dig(0, :message)).to match(/The access token expired/)
+          expect(errors.dig(0, :extensions, :code)).to eq('unauthorized')
         end
       end
 
@@ -39,18 +39,28 @@ RSpec.describe Types::QueryType, type: :request do
 
         it 'returns a localized error' do
           expect(errors).to be_present
-          expect(errors.dig(0, 'message')).to match(/The access token was revoked/)
-          expect(errors.dig(0, 'extensions', 'code')).to eq('unauthorized')
+          expect(errors.dig(0, :message)).to match(/The access token was revoked/)
+          expect(errors.dig(0, :extensions, :code)).to eq('unauthorized')
         end
       end
     end
 
-    describe 'when unauthenticated' do
-      before do
+    context 'without access_token' do
+      it 'cannot get details of a current user' do
         do_graphql_request
-      end
 
-      include_examples 'when unauthenticated'
+        expect(errors).to be_blank
+        expect(json.deep_symbolize_keys.dig(:data, :currentUser)).to be_nil
+      end
     end
+
+    # TODO: move this to a mutation like UpdateUser
+    # describe 'when unauthenticated' do
+    #   before do
+    #     do_graphql_request
+    #   end
+
+    #   include_examples 'when unauthenticated'
+    # end
   end
 end
