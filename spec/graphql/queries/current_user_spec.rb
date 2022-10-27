@@ -53,14 +53,5 @@ RSpec.describe Types::QueryType, type: :request do
         expect(json.deep_symbolize_keys.dig(:data, :currentUser)).to be_nil
       end
     end
-
-    # TODO: move this to a mutation like UpdateUser
-    # describe 'when unauthenticated' do
-    #   before do
-    #     do_graphql_request
-    #   end
-
-    #   include_examples 'when unauthenticated'
-    # end
   end
 end

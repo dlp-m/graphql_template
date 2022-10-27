@@ -11,6 +11,15 @@ fragment errorFields on ValidationError {
   error
 }
 
+mutation updateCurrentUser($input: UpdateCurrentUserInput!) {
+  updateCurrentUser(input: $input) {
+    user {
+      firstName
+      lastName
+    }
+  }
+}
+
 mutation forgotPassword($input: ForgotPasswordInput!) {
   forgotPassword(input: $input) {
     done
