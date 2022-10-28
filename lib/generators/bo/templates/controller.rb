@@ -2,7 +2,6 @@
 
 module Admin
   class <%= class_name.pluralize %>Controller < AdminController
-    include Filterable
     before_action :set_<%= class_name.underscore %>, only: %i[show edit destroy update]
 
     def index

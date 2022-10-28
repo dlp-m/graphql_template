@@ -12,9 +12,6 @@ def configure_bo
   system 'bin/setup'
   system 'rails tailwindcss:install'
   ['app/controllers/admin_controller.rb',
-   'app/controllers/concerns/filterable.rb',
-   'app/models/application_record.rb',
-   'app/models/concerns/filterable_concern.rb',
    'config/initializers/simple_form_tailwind.rb',
    'config/tailwind.config.js'
   ].each do |file|
@@ -35,4 +32,5 @@ def configure_bo
   text = File.read(file)
   new_contents = text.gsub(/RifApi/, "#{@app_const_base.underscore.humanize}")
   File.open(file, "w") {|f| f.puts new_contents }
+  system 'rails g bo User'
 end
