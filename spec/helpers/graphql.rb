@@ -11,7 +11,7 @@ module Helpers
     end
 
     def json
-      response.parsed_body
+      response.parsed_body.deep_symbolize_keys
     end
 
     def errors
@@ -23,13 +23,13 @@ module Helpers
     end
 
     def query_errors
-      json['errors']
+      json[:errors]
     end
 
     def mutation_errors
       mutation = described_class.to_s.demodulize.tap { |e| e[0] = e[0].downcase }
 
-      json.dig('data', mutation, 'errors')
+      json[:errors] ||  json.dig(:data, mutation.to_sym, :errors)
     end
 
     def loader
@@ -66,7 +66,7 @@ module Helpers
 
       it 'returns an error' do
         expect(errors).to be_present
-        expect(errors.dig(0, 'message')).to match(/No object found/)
+        expect(errors.dig(0, :message)).to match(/No object found/)
       end
     end
   end
