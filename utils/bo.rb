@@ -4,6 +4,7 @@ def configure_bo
   gem 'tailwindcss-rails'
   gem 'simple_form'
   gem 'simple_form-tailwind'
+  gem 'ransack'
   gem 'pagy'
   gem_group :development, :test do
     gem 'hotwire-livereload'

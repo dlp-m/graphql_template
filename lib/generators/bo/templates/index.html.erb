@@ -6,19 +6,9 @@
       ) do |header| %>
     <%%= header.with_add_button(path: new_admin_<%= class_name.underscore %>_path) %>
   <%% end %>
+
   <!-- Search Bar --> 
-  <%% if <%= class_name %>.respond_to?(:filterable) %>
-    <div class="flex justify-end mb-1">
-      <%%= form_with url: filter_admin_<%= class_name.underscore.pluralize %>_path, method: :get, data: { controller: "search-form", search_form_target: "form", turbo_frame: "<%= class_name.underscore.pluralize %>" } do |form| %>
-        <%%= form.text_field :search,
-          placeholder: I18n.t('bo.<%=class_name.underscore%>.filterable'),
-          class: "border border-blue-500 rounded p-2",
-          autocomplete: "off",
-          data: { action: "input->search-form#search" }
-        %>
-    <%% end %>
-    </div>
-  <%% end %>
+  <%%= render('search_bar') %>
   <!-- Table --> 
   <%%= turbo_frame_tag "<%= class_name.underscore.pluralize %>", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
     <%%= render('table') %>

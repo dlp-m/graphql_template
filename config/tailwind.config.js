@@ -14,7 +14,7 @@ module.exports = {
       },
       colors: {
         sidebar: {
-          DEFAULT: '#3A0E52',
+          DEFAULT: '#13B290',
           50: 'rgba(255, 255, 255, 0.5)',
           200: 'rgba(255, 255, 255, 0.2)',
           900: 'rgba(0, 0, 0, 0.2)',

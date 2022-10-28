@@ -6,8 +6,8 @@ module Admin
     before_action :set_<%= class_name.underscore %>, only: %i[show edit destroy update]
 
     def index
-      session.delete('<%=class_name.underscore%>_filters')
-      @pagy, @<%= class_name.pluralize.underscore %> = pagy(<%= class_name %>.order(created_at: :desc))
+      @q = <%=class_name%>.ransack(params[:q])
+      @pagy, @<%= class_name.pluralize.underscore %> = pagy(@q.result(distinct: true))
     end
 
     def show; end
@@ -45,8 +45,9 @@ module Admin
       redirect_to admin_<%= class_name.underscore.pluralize %>_path, status: :see_other
     end
 
-    def filter
-      @pagy, @<%= class_name.underscore.pluralize %> = pagy(filter!(<%=class_name%>))
+    def search
+      @q = <%= class_name %>.ransack(params[:q])
+      @pagy, @<%= class_name.underscore %> = pagy(@q.result(distinct: true))
       render('index')
     end
 
