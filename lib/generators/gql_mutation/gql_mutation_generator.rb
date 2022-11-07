@@ -12,7 +12,7 @@ class GqlMutationGenerator < Rails::Generators::NamedBase
 
   def update_mutation_type
     path = 'app/graphql/types/mutation_type.rb'
-    mutations = File.read(path).gsub("end\nend\n", "  field :test_mutation, mutation: Mutations::#{file_name.camelize}\n  end\nend\n")
+    mutations = File.read(path).gsub("end\nend\n", "  field :#{file_name.underscore}, mutation: Mutations::#{file_name.camelize}\n  end\nend\n")
     File.write(path, mutations)
   end
 end
