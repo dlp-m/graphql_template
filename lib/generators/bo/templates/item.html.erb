@@ -21,11 +21,11 @@
       <%- end -%>
       <!-- belongs_to Associations -->
       <%- class_name.constantize.reflect_on_all_associations(:belongs_to).each do |association| -%>
-      <%%= f.input :<%= association.foreign_key %>, collection: <%= association.klass.name.constantize %>.all %>
+      <%%= f.association :<%= association.name %>, collection: <%= association.klass.name.constantize %>.all %>
       <%- end -%>
       <!-- has_one Associations -->
       <%- class_name.constantize.reflect_on_all_associations(:has_one).each do |association| -%>
-      <%%= f.input :<%= association.foreign_key %>, collection: <%= association.klass.name.constantize %>.all %>
+      <%%= f.association :<%= association.name %>, collection: <%= association.klass.name.constantize %>.all %>
       <%- end -%>
       <%%= render(Forms::SubmitButtonComponent.new) %>
     <%% end %>

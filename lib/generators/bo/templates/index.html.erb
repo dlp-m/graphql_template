@@ -1,8 +1,8 @@
 <%%= render(IndexComponent.new) do |index| %>
   <!-- Header --> 
   <%%= index.with_header(
-    title: I18n.t('bo.<%= class_name.underscore %>.others'),
-    subtitle: I18n.t('bo.<%= class_name.underscore %>.subtitle'),
+    title: I18n.t('bo.<%= class_name.underscore %>.others').capitalize,
+    subtitle: I18n.t('bo.<%= class_name.underscore %>.subtitle').capitalize,
       ) do |header| %>
     <%%= header.with_add_button(path: new_admin_<%= class_name.underscore %>_path) %>
   <%% end %>
