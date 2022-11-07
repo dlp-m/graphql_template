@@ -6,11 +6,14 @@ def create_translations
     unless File.exist?(locale_file)
       File.write(locale_file, {
         local => {
-          'bo' => { 'record' => {
+          'bo' => {
+            'filters' => find_existing_translation('filters', local),
+            'record' => {
             'created' => find_existing_translation('created', local),
             'updated' => find_existing_translation('updated', local),
             'destroyed' => find_existing_translation('destroyed', local)
-          } }
+          }
+         }
         }
       }.to_yaml)
     end
@@ -18,10 +21,9 @@ def create_translations
     yaml_string = File.open locale_file
     data = YAML.load yaml_string
     data[local]['bo'][file_name.underscore.to_s] = {
-      'one' => nil,
-      'others' => nil,
-      'subtitle' => nil,
-      'searchable' => nil,
+      'one' => find_existing_translation(bo_model.to_s.downcase, local),
+      'others' => find_existing_translation(bo_model.to_s.pluralize.downcase, local),
+      'subtitle' => find_existing_translation("list of #{bo_model.to_s.pluralize.downcase}", local),
       'attributes' => model_attributes(local)
     }
     output = YAML.dump data

@@ -28,7 +28,7 @@
           <%%= I18n.t('bo.<%= class_name.underscore %>.attributes.<%= col.name %>') %>
         </label>
         <div class="mt-1 sm:col-span-2 sm:mt-0">
-          <%%= f.number_field :<%= col.name %>_cont, placeholder: I18n.t('bo.<%= class_name.underscore %>.attributes.<%= col.name %>'), data: { action: "input->search-form#search" }, class: "block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" %>
+          <%%= f.number_field :<%= col.name %>_eq, placeholder: I18n.t('bo.<%= class_name.underscore %>.attributes.<%= col.name %>'), data: { action: "input->search-form#search" }, class: "block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" %>
         </div>
       </div>
     <%- elsif col.type == :boolean -%>
