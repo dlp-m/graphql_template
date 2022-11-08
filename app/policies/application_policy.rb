@@ -7,7 +7,7 @@ class ApplicationPolicy < ActionPolicy::Base
   pre_check :authenticated?
 
   def authenticated?
-    doorkeeper_authorize!(:app)
+    doorkeeper_authorize!(:user)
   end
 
   def index?

@@ -12,7 +12,7 @@ module CurrentUserContext
 
     return nil if doorkeeper_token.nil?
 
-    doorkeeper_authorize!(:app)
+    doorkeeper_authorize!(:user)
 
     @current_user = User.find(doorkeeper_token.resource_owner_id)
     context[:current_user] = @current_user
