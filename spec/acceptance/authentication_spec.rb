@@ -29,8 +29,11 @@ resource 'OAuth Tokens' do
 
       example 'Get a new token with `password` grant flow' do
         do_request
+
         expect(status).to eq(200)
+
         response = JSON.parse(response_body)
+        expect(response['scope']).to eq('user')
         expect(response['access_token']).not_to be_blank
         expect(response['refresh_token']).not_to be_blank
       end
