@@ -13,6 +13,7 @@ class AdminController < ApplicationController
     # todo add custom admin login
     deny_access(I18n.t('flashes.failure_when_not_signed_in')) unless true
   end
+
   def current_user
     @current_user =OpenStruct.new(email: 'michel@tymaye.com')
   end

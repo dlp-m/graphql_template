@@ -18,8 +18,9 @@ def configure_graphql
     create_or_replace_file(file)
   end
   file = "app/graphql/#{@app_name}_schema.rb"
-  remove_file file
   copy_file "app/graphql/project_name_schema.rb", file
+  remove_file "app/graphql/project_name_schema.rb"
+
   text = File.read(file)
   new_contents = text.gsub(/ProjectApi/, "#{@app_const_base}")
   File.open(file, "w") {|f| f.puts new_contents }
