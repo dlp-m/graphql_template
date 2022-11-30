@@ -10,13 +10,13 @@ Rails.application.routes.draw do
   end
   # bo
   root to: 'admin/users#index'
-  concern :searchable do
-    collection do
-      post :search
-    end
-  end
+
   namespace :admin do
     root to:  'admin/users#index'
-    resources :users, concerns: [:searchable]
+    resources :users
+    resources :administrators
+    resources :blog_categories
+    resources :blog_posts
+    resources :blog_tags
   end
 end

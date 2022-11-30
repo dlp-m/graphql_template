@@ -43,13 +43,7 @@ module Admin
 
       redirect_to admin_<%= class_name.underscore.pluralize %>_path, status: :see_other
     end
-
-    def search
-      @q = <%= class_name %>.ransack(params[:q])
-      @pagy, @<%= class_name.underscore %> = pagy(@q.result(distinct: true))
-      render('index')
-    end
-
+        
     private
 
     def set_<%= class_name.underscore %>
@@ -58,8 +52,12 @@ module Admin
 
     def <%= class_name.underscore %>_params
       params.require(:<%= class_name.underscore %>).permit(
-      <%-model_columns.each_with_index do |col, index| -%>
-        :<%= col %><%=model_columns.count == (index +1) ? '' : ',' %>
+      <%-permited_params.each_with_index do |(key, value), index| -%>
+        <%- if value.nil? -%>
+        :<%= key %><%=permited_params.count == (index +1) ? '' : ',' %>
+        <%- else -%>
+        <%= "#{key}: []" %><%=permited_params.count == (index +1) ? '' : ',' %>
+        <%- end -%>
         <%- end -%>
       )
     end

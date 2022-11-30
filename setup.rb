@@ -22,6 +22,7 @@ configure_graphql
 configure_annotate
 configure_rubocop
 configure_clearance
+# configure_bo
 configure_rspec
-configure_bo if yes?("add bo ?")
 chore
+

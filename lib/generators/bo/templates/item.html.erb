@@ -6,27 +6,12 @@
                    else
                      { label: "Nouvelle <%= class_name.underscore %>", path: new_admin_<%= class_name.underscore %>_path }
                    end
-    form.with_title(<%= class_name.underscore %>.persisted? ? <%= class_name.underscore %>.id : 'Nouvelle <%= class_name.underscore %>')
+    form.with_title(<%= class_name.underscore %>.persisted? ? <%= class_name.underscore %>.<%=bo_model_title(bo_model)%> : 'Nouvelle <%= class_name.underscore %>')
     form.with_breadcrumb([
           { label: 'Étapes', path: admin_<%= class_name.pluralize.underscore %>_path },
           current_page
         ])
   %>
     <br>
-    <%%= simple_form_for [:admin, <%= class_name.underscore %>], html: { class: "<%= class_name.underscore %> form" } do |f| %>
-      <!-- Model columns --> 
-      <%- class_name.constantize.column_names.each do |column| -%>
-      <%- next if excluded_columns.include?(column.to_sym) || class_name.constantize.reflect_on_all_associations.map(&:foreign_key).include?(column) -%>
-      <%%= f.input :<%= column %> %>
-      <%- end -%>
-      <!-- belongs_to Associations -->
-      <%- class_name.constantize.reflect_on_all_associations(:belongs_to).each do |association| -%>
-      <%%= f.association :<%= association.name %>, collection: <%= association.klass.name.constantize %>.all %>
-      <%- end -%>
-      <!-- has_one Associations -->
-      <%- class_name.constantize.reflect_on_all_associations(:has_one).each do |association| -%>
-      <%%= f.association :<%= association.name %>, collection: <%= association.klass.name.constantize %>.all %>
-      <%- end -%>
-      <%%= render(Forms::SubmitButtonComponent.new) %>
-    <%% end %>
+    <%%= render "form", <%= class_name.underscore %>: @<%= class_name.underscore %> %>
 <%% end %>
