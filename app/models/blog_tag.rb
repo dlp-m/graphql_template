@@ -6,7 +6,13 @@ class BlogTag < ApplicationRecord
   # Validations
   validates :name, presence: true
   # Associations
-  has_many :blog_posts, dependent: :nullify
+  has_many :blog_post_blog_tags,
+          class_name: 'BlogPostBlogTag',
+          dependent: :destroy
+  has_many :blog_posts,
+           through: :blog_post_blog_tags,
+           source: :blog_post,
+           class_name: 'BlogPost'
   # Callbacks
   # Scopes
   # Supports

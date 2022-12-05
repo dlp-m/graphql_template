@@ -30,10 +30,8 @@ class BoGenerator < Rails::Generators::NamedBase
 
   def bo_model_title(model=nil)
     return unless model
-    columns = model.column_names.map(&:to_sym)
-    %i[title name email id].each do |col|
-      return col if columns.include? col
-    end
+
+   (%i[title name email id] & model.column_names.map(&:to_sym)).first
   end
 
   def excluded_columns

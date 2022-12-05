@@ -28,7 +28,6 @@ export default class extends Controller {
       const list = await response.json
       callback(list)
     } else {
-      console.log(response)
       callback()
     }
   }
