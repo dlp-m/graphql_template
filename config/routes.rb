@@ -12,7 +12,11 @@ Rails.application.routes.draw do
   root to: 'admin/users#index'
 
   namespace :admin do
-    root to: 'users#index'
+    root to:  'admin/users#index'
     resources :users
+    resources :administrators
+    resources :blog_categories
+    resources :blog_posts
+    resources :blog_tags
   end
 end

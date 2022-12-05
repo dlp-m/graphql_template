@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module Admin
   class <%= class_name.pluralize %>Controller < AdminController
     before_action :set_<%= class_name.underscore %>, only: %i[show edit destroy update]
 
-     def index
-      @pagy, @<%= class_name.pluralize.underscore %> = pagy(<%= class_name %>.order(created_at: :desc))
+    def index
+      @q = <%=class_name%>.ransack(params[:q])
+      @pagy, @<%= class_name.pluralize.underscore %> = pagy(@q.result(distinct: true))
     end
 
     def show; end
@@ -16,7 +19,7 @@ module Admin
       @<%= class_name.underscore %> = <%= class_name %>.new(<%= class_name.underscore %>_params)
 
       if @<%= class_name.underscore %>.save
-        flash[:success] =   t('bo.record.created')
+        flash[:success] = t('bo.record.created')
         redirect_to admin_<%= class_name.underscore.pluralize %>_path
       else
         render :new, status: :unprocessable_entity
@@ -27,7 +30,7 @@ module Admin
 
     def update
       if @<%= class_name.underscore %>.update(<%= class_name.underscore %>_params)
-        flash[:success] =   t('bo.record.updated')
+        flash[:success] = t('bo.record.updated')
         redirect_to admin_<%= class_name.underscore %>_path
       else
         render :show, status: :unprocessable_entity
@@ -36,11 +39,11 @@ module Admin
 
     def destroy
       @<%= class_name.underscore %>.destroy
-      flash[:success] =   t('bo.record.destroyed')
+      flash[:success] = t('bo.record.destroyed')
 
       redirect_to admin_<%= class_name.underscore.pluralize %>_path, status: :see_other
     end
-
+        
     private
 
     def set_<%= class_name.underscore %>
@@ -49,10 +52,14 @@ module Admin
 
     def <%= class_name.underscore %>_params
       params.require(:<%= class_name.underscore %>).permit(
-        <%-model_columns.each_with_index do |col, index| -%>
-         :<%= col %><%=model_columns.count == (index +1) ? '' : ',' %>
-         <%- end -%>
-        )
+      <%-permited_params.each_with_index do |(key, value), index| -%>
+        <%- if value.nil? -%>
+        :<%= key %><%=permited_params.count == (index +1) ? '' : ',' %>
+        <%- else -%>
+        <%= "#{key}: []" %><%=permited_params.count == (index +1) ? '' : ',' %>
+        <%- end -%>
+        <%- end -%>
+      )
     end
   end
 end

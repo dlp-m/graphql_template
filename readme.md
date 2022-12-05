@@ -9,7 +9,7 @@
 - run `cd ..`
 - run `chruby 3.1.2` or newest
 - install rails version for the project
-- run `rails _5.2.3_ new mon_project_api --database=postgresql -m rails_templates/graphql_template/setup.rb`
+- run `rails _7.0.4_ new mon_project_api --database=postgresql -m rails_templates/graphql_template/setup.rb`
 
 # what does it do
 - setup basics gem
@@ -25,6 +25,8 @@
 ## TODO:
 - [ ] fix gems versions ?
 - [ ] chose implementation together and refacto with `inject_into_file` or `gsub_file`
-- [ ] add conditional setup ? ex "Would you like to install Clearance ?"
 - [ ] clean css files ( import ect ...)
 - [ ] clean html files
+- [ ] (bo) better date filter (from today to today bug, maybe add a workarround with from.beginning_of_day to.end_of_day )
+- [ ] (bo) better style for pagination
+- [ ] (bo) Close dropdown when user click outside
