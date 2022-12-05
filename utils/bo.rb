@@ -1,5 +1,18 @@
 def configure_bo
   custom_log(__method__)
+  add_gems
+  system 'bin/setup'
+  install_tailwind
+  setup_base_files
+  change_title
+  setup_basics
+  generate_blog
+  create_or_replace_folders(Dir["#{source_paths.first}/app/models/*"])
+  generate_base_view
+  seed
+end
+
+def add_gems
   gem 'view_component'
   gem 'tailwindcss-rails'
   gem 'simple_form'
@@ -9,7 +22,9 @@ def configure_bo
   gem_group :development, :test do
     gem 'hotwire-livereload'
   end
-  system 'bin/setup'
+end
+
+def install_tailwind
   system 'rails tailwindcss:install'
   ['app/controllers/admin_controller.rb',
    'config/initializers/simple_form_tailwind.rb',
@@ -17,6 +32,14 @@ def configure_bo
   ].each do |file|
     create_or_replace_file(file)
   end
+end
+
+def seed
+  create_or_replace_folders(Dir["#{source_paths.first}/db/*"])
+  system 'bundle exec rails db:seed'
+end
+
+def setup_base_files
   [
     'app/helpers/*',
     'app/javascript/*',
@@ -27,24 +50,13 @@ def configure_bo
   ].each do |folder|
     create_or_replace_folders(Dir["#{source_paths.first}/#{folder}"])
   end
-  change_title
-  setup_basics
-  create_or_replace_folders(Dir["#{source_paths.first}/app/models/*"])
-  generate_base_view
-  generate_blog
 end
-
-
 
 def setup_basics
   system "
     n | rails action_text:install;
     ./bin/importmap pin tom-select --download;
     rails g model Administrator confirmation_token:string email:string encrypted_passwor:string first_name:string last_name:string remember_token:string;
-    rails g model BlogCategory name:string;
-    rails g model BlogPost title:string administrator:references blog_category:references content:rich_text;
-    rails g model BlogTag name:string;
-    rails g model blog_post_blog_tags blog_tag:references blog_post:references;
     rails db:migrate;
     rails db:migrate RAILS_ENV=test
     "
@@ -54,6 +66,9 @@ def generate_base_view
   system "
     rails g bo Administrator;
     rails g bo User;
+    rails g bo BlogPost;
+    rails g bo BlogCategory;
+    rails g bo BlogTag;
     "
 end
 
@@ -62,12 +77,9 @@ def generate_blog
     rails g model BlogCategory name:string;
     rails g model BlogPost title:string administrator:references blog_category:references content:rich_text;
     rails g model BlogTag name:string;
-    rails g model blog_post_blog_tags blog_tag:references blog_post:references;
+    rails g model blog_post_blog_tag blog_tag:references blog_post:references;
     rails db:migrate;
     rails db:migrate RAILS_ENV=test
-    rails g bo BlogPost;
-    rails g bo BlogCategory;
-    rails g bo BlogTag;
   "
 end
 
