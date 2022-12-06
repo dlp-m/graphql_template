@@ -7,13 +7,15 @@ def configure_bo
   change_title
   setup_basics
   generate_blog
+  generate_faq
+  create_or_replace_folders(Dir["#{source_paths.first}/app/models/*"])
   generate_base_view
   seed
-  create_or_replace_folders(Dir["#{source_paths.first}/app/models/*"])
   system "git add . ; git commit -m 'feat: setup bo'"
 end
 
 def add_gems
+  gem 'acts_as_list'
   gem 'view_component'
   gem 'tailwindcss-rails'
   gem 'simple_form'
@@ -55,7 +57,7 @@ end
 
 def setup_basics
   system "
-   yes n | rails action_text:install;
+    n | rails action_text:install;
     ./bin/importmap pin tom-select --download;
     rails g model Administrator confirmation_token:string email:string encrypted_passwor:string first_name:string last_name:string remember_token:string;
     rails db:migrate;
@@ -70,11 +72,12 @@ def generate_base_view
     rails g bo BlogPost;
     rails g bo BlogCategory;
     rails g bo BlogTag;
+    rails g bo FrequentlyAskedQuestion;
     "
 end
 
 def generate_blog
-  system "
+  run "
     rails g model BlogCategory name:string;
     rails g model BlogPost title:string administrator:references blog_category:references content:rich_text;
     rails g model BlogTag name:string;
@@ -89,4 +92,12 @@ def change_title
   text = File.read(file)
   new_contents = text.gsub(/BaseApi/, "#{@app_const_base.underscore.humanize}")
   File.open(file, "w") {|f| f.puts new_contents }
+end
+
+def generate_faq
+  run "
+    rails g model FrequentlyAskedQuestion title:string position:integer content:rich_text;
+    rails db:migrate;
+    rails db:migrate RAILS_ENV=test
+    "
 end

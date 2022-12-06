@@ -14,14 +14,16 @@ def source_paths
   [__dir__]
 end
 # we need to add doorkeeper first because it raise an errors
-create_or_replace_file("config/initializers/doorkeeper.rb")
-configure_git
-configure_gemfile
-configure_doorkeerper
-configure_graphql
-configure_annotate
-configure_rubocop
-configure_clearance
-configure_bo
-configure_rspec
-chore
+after_bundle do
+  create_or_replace_file("config/initializers/doorkeeper.rb")
+  configure_git
+  configure_gemfile
+  configure_doorkeerper
+  configure_graphql
+  configure_annotate
+  configure_rubocop
+  configure_clearance
+  configure_bo
+  configure_rspec
+  chore
+end

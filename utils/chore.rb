@@ -3,7 +3,7 @@ def chore
   system "touch .env; touch .env.exemple"
   system "echo .env >> .gitignore"
   system "echo coverage/**/* >> .gitignore"
-  system "git add . ; git commit -m 'chore: update gitigore'"
+  system "git add . ; git commit -m 'chore: update gitignore'"
   system "bundle exec rubocop -A"
   system "bundle exec rspec"
   system "git add . ; git commit -m 'feat: rubocop'"

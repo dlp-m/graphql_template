@@ -18,5 +18,6 @@ Rails.application.routes.draw do
     resources :blog_categories
     resources :blog_posts
     resources :blog_tags
+    resources :frequently_asked_questions
   end
 end

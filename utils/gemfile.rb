@@ -46,5 +46,5 @@ def configure_gemfile
     # Add a comment summarizing the current schema to the top or bottom of each of your...
     gem 'annotate'
   end
-  system "bundle install"
+  run "bundle install"
 end
