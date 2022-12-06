@@ -1,6 +1,5 @@
 def configure_rspec
   custom_log(__method__)
-  system "rails generate rspec:install"
   remove_dir "test"
   system "rails generate rspec:install"
   create_or_replace_folders(Dir["#{source_paths.first}/spec/*"])

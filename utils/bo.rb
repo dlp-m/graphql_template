@@ -7,9 +7,10 @@ def configure_bo
   change_title
   setup_basics
   generate_blog
-  create_or_replace_folders(Dir["#{source_paths.first}/app/models/*"])
   generate_base_view
   seed
+  create_or_replace_folders(Dir["#{source_paths.first}/app/models/*"])
+  system "git add . ; git commit -m 'feat: setup bo'"
 end
 
 def add_gems

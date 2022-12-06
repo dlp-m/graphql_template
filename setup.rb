@@ -22,6 +22,6 @@ configure_graphql
 configure_annotate
 configure_rubocop
 configure_clearance
-# configure_bo
+configure_bo
 configure_rspec
 chore
