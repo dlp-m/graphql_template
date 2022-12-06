@@ -25,4 +25,3 @@ configure_clearance
 # configure_bo
 configure_rspec
 chore
-
