@@ -54,7 +54,7 @@ end
 
 def setup_basics
   system "
-    n | rails action_text:install;
+   yes n | rails action_text:install;
     ./bin/importmap pin tom-select --download;
     rails g model Administrator confirmation_token:string email:string encrypted_passwor:string first_name:string last_name:string remember_token:string;
     rails db:migrate;
