@@ -11,14 +11,19 @@ module Types
     # belongs_to Associations
     <%- class_name.constantize.reflect_on_all_associations(:belongs_to).each do |association| -%>
     field :<%= association.name %>, Types::<%= association.klass.name %>Type, null: false
-    <% end -%>
+    <%- end -%>
     # has_many Associations
     <%- class_name.constantize.reflect_on_all_associations(:has_many).each do |association| -%>
     field :<%= association.name %>, Types::<%= association.klass.name %>Type.connection_type, resolver: Resolvers::<%= association.klass.name %>Resolver, null: true
-    <% end -%>
+    <%- end -%>
     # has_one Associations
     <%- class_name.constantize.reflect_on_all_associations(:has_one).each do |association| -%>
-    field :<%= association.name %>, Types::<%= association.klass.name %>Type, null: false
-    <% end -%>
+    <%- if association.options[:class_name] == "ActionText::RichText" -%>
+    field :<%= association.name %>, String, null: true
+    <%- else -%>
+    field :<%= association.name %>, Types::<%= association.klass.name %>Type, null: true
+    <%- end -%>
+    <%- end -%>
   end
 end
+
