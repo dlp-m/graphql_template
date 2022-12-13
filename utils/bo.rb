@@ -51,7 +51,7 @@ end
 def setup_basics
   run "n | rails action_text:install"
   run "./bin/importmap pin tom-select --download"
-  run 'rails g model Administrator confirmation_token:string email:string encrypted_passwor:string first_name:string last_name:string remember_token:string'
+  run 'rails g model Administrator confirmation_token:string email:string encrypted_password:string first_name:string last_name:string remember_token:string'
   run 'rails db:migrate; rails db:migrate RAILS_ENV=test'
   run 'rails g bo Administrator'
   run 'rails g bo User'
