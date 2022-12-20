@@ -6,10 +6,39 @@ def configure_bo
   setup_base_files
   change_title
   setup_basics
+  setup_devise
   generate_blog if yes?("Generate blog ?")
   generate_faq if yes?("Generate F.A.Q ?")
   run 'bundle exec rails db:seed'
   run "git add . ; git commit -m 'feat: setup bo'"
+end
+
+def setup_devise
+  run 'bundle exec rails g devise:install'
+   %w[
+    config/initializers/devise.rb
+    app/controllers/admin/confirmations_controller.rb
+    app/controllers/admin/omniauth_callbacks_controller.rb
+    app/controllers/admin/passwords_controller.rb
+    app/controllers/admin/registrations_controller.rb
+    app/controllers/admin/sessions_controller.rb
+    app/controllers/admin/unlocks_controller.rb
+    app/views/layouts/devise_admin.html.erb
+  ].each do |file|
+    create_or_replace_file(file)
+  end
+  create_or_replace_folders(['app/views/devise'])
+  run 'bundle exec rails g devise Administrator'
+  run 'bundle exec rails db:migrate'
+  gsub_text(
+    file: 'config/routes.rb',
+    regex: /devise_for :administrators/,
+    new_text: "devise_for  :administrators, 
+            controllers: {
+              sessions: 'admin/sessions',
+              passwords: 'admin/passwords'
+            }"
+  )
 end
 
 def add_gems
@@ -20,6 +49,7 @@ def add_gems
   gem 'simple_form-tailwind'
   gem 'ransack'
   gem 'pagy'
+  gem 'devise'
   gem_group :development, :test do
     gem 'hotwire-livereload'
   end
@@ -51,9 +81,8 @@ end
 def setup_basics
   run "n | rails action_text:install"
   run "./bin/importmap pin tom-select --download"
-  run 'rails g model Administrator confirmation_token:string email:string encrypted_passwor:string first_name:string last_name:string remember_token:string'
+  # run 'rails g model Administrator confirmation_token:string email:string encrypted_passwor:string first_name:string last_name:string remember_token:string'
   run 'rails db:migrate; rails db:migrate RAILS_ENV=test'
-  run 'rails g bo Administrator'
   run 'rails g bo User'
   %w[
     db/seeds.rb

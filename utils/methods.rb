@@ -18,6 +18,13 @@ def create_or_replace_folders(files)
   end
 end
 
+def gsub_text(file: , regex: , new_text: )
+  text = File.read(file)
+  new_contents = text.gsub(regex, new_text)
+  puts new_contents
+  File.open(file, "w") {|file| file.puts new_contents }
+end
+
 def source_paths
   [__dir__]
 end

@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   end
   # bo
   root to: 'admin/users#index'
-
   namespace :admin do
     root to:  'admin/users#index'
     resources :users
