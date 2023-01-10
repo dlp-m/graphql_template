@@ -126,7 +126,24 @@ def generate_faq
   end
   run 'rails g bo FrequentlyAskedQuestion'
   run 'rails g gql FrequentlyAskedQuestion'
+  toto
   create_or_replace_file('spec/fabricators/frequently_asked_question_fabricator.rb')
   create_or_replace_file('spec/graphql/queries/frequently_asked_questions_spec.rb')
   create_or_replace_file('app/policies/frequently_asked_question_policy.rb')
+end
+
+def toto
+  inject_into_file 'app/graphql/resolvers/frequently_asked_question_resolver.rb', after: "DEFAULT_ORDER = { column: :created_at, direction: :asc }.freeze\n\n" do 
+    <<-'RUBY'
+    option(
+        :search,
+        type: String, description: 'Case insensitive partial matching by title or content'
+      ) do |scope, value|
+      scope.joins(:action_text_rich_text).where('title ILIKE ?', "%#{value}%").or(
+        scope.where('action_text_rich_texts.body ILIKE ?', "%#{value}%")
+      )
+    end
+
+    RUBY
+  end
 end
