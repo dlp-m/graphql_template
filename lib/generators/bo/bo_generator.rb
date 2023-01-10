@@ -4,30 +4,34 @@ class BoGenerator < Rails::Generators::NamedBase
   source_root File.expand_path('templates', __dir__)
   load "#{Rails.root}/lib/generators/bo/utils/translations.rb"
   check_class_collision suffix: 'bo'
+  class_option :namespace, type: :string, default: 'administrators'
 
   def create_bo_file
     # Template method
     # First argument is the name of the template
     # Second argument is where to create the resulting file. In this case, app/bo/my_bo.rb
-    template 'new.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/new.html.erb")
-    template 'item.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/_#{file_name.underscore}.html.erb")
-    template '_form.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/_form.html.erb")
-    template 'index.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/index.html.erb")
-    template '_table.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/_table.html.erb")
-    template '_search_bar.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/_search_bar.html.erb")
-    template 'show.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/show.html.erb")
-    template 'controller.rb', File.join('app/controllers/admin', "#{file_name.pluralize}_controller.rb")
+    template 'new.html.erb', File.join("app/views/#{options[:namespace]}", "#{plural_name}/new.html.erb")
+    template 'item.html.erb', File.join("app/views/#{options[:namespace]}", "#{plural_name}/_#{file_name.underscore}.html.erb")
+    template '_form.html.erb', File.join("app/views/#{options[:namespace]}", "#{plural_name}/_form.html.erb")
+    template 'index.html.erb', File.join("app/views/#{options[:namespace]}", "#{plural_name}/index.html.erb")
+    template '_table.html.erb', File.join("app/views/#{options[:namespace]}", "#{plural_name}/_table.html.erb")
+    template '_search_bar.html.erb', File.join("app/views/#{options[:namespace]}", "#{plural_name}/_search_bar.html.erb")
+    template 'show.html.erb', File.join("app/views/#{options[:namespace]}", "#{plural_name}/show.html.erb")
+    template 'controller.rb', File.join("app/controllers/#{options[:namespace]}", "#{plural_name}_controller.rb")
     create_translations
-    create_routes
   end
 
   def bo_model
     class_name.constantize
   end
 
+  def plural_name
+    file_name.pluralize
+  end
+
   def create_routes
-   inject_into_file 'config/routes.rb', after: "namespace :admin do\n" do 
-    "resources :#{file_name.pluralize}\n"
+    inject_into_file 'config/routes.rb', after: " namespace :#{options[:namespace]} do\n" do 
+      "resources :#{plural_name} \n"
     end
   end
 
@@ -74,5 +78,11 @@ class BoGenerator < Rails::Generators::NamedBase
 
   def permited_columns
     model_columns - excluded_columns
+  end
+
+  def add_link_to_side_bar
+    inject_into_file "app/views/#{options[:namespace]}/layouts/_side_bar.html.erb", before: "  <%= sidebar.with_current_user_card(user: current_#{options[:namespace].singularize}) %>\n" do 
+      "  <%= sidebar.with_item(path: #{options[:namespace]}_#{plural_name}_path, icon: Icons::UsersComponent, label: I18n.t('bo.#{file_name}.others').capitalize) %>\n"
+    end
   end
 end

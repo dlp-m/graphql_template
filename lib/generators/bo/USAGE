@@ -1,8 +1,12 @@
 Description:
-    Explain the generator
-
+    Create CRUD views for a model
+    `rails g bo BlogPost`
+    By default it create views in the administrators namespace
 Example:
-    bin/rails generate bo Thing
-
+    `rails g bo BlogPost --namespace employers`
     This will create:
-        what/will/it/create
+        - CRUD views
+        - CRUD controllers
+        - Base filters on index pages
+        - base routes
+        - base seeds

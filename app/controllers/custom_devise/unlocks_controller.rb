@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Admin::UnlocksController < Devise::UnlocksController
+class CustomDevise::UnlocksController < Devise::UnlocksController
   layout 'devise_admin'
   # GET /resource/unlock/new
   # def new

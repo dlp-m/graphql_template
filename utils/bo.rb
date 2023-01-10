@@ -1,3 +1,4 @@
+require 'pry'
 def configure_bo
   custom_log(__method__)
   add_gems
@@ -7,6 +8,7 @@ def configure_bo
   change_title
   setup_basics
   setup_devise
+  run 'rails g bo User'
   generate_blog if yes?("Generate blog ?")
   generate_faq if yes?("Generate F.A.Q ?")
   run 'bundle exec rails db:seed'
@@ -15,30 +17,22 @@ end
 
 def setup_devise
   run 'bundle exec rails g devise:install'
+  run 'bundle exec rails db:migrate'
    %w[
     config/initializers/devise.rb
-    app/controllers/admin/confirmations_controller.rb
-    app/controllers/admin/omniauth_callbacks_controller.rb
-    app/controllers/admin/passwords_controller.rb
-    app/controllers/admin/registrations_controller.rb
-    app/controllers/admin/sessions_controller.rb
-    app/controllers/admin/unlocks_controller.rb
-    app/views/layouts/devise_admin.html.erb
+    app/controllers/custom_devise/confirmations_controller.rb
+    app/controllers/custom_devise/omniauth_callbacks_controller.rb
+    app/controllers/custom_devise/passwords_controller.rb
+    app/controllers/custom_devise/registrations_controller.rb
+    app/controllers/custom_devise/sessions_controller.rb
+    app/controllers/custom_devise/unlocks_controller.rb
   ].each do |file|
     create_or_replace_file(file)
   end
-  create_or_replace_folders(['app/views/devise'])
-  run 'bundle exec rails g devise Administrator'
+  run 'rails g bo_namespace Administrator'
   run 'bundle exec rails db:migrate'
-  gsub_text(
-    file: 'config/routes.rb',
-    regex: /devise_for :administrators/,
-    new_text: "devise_for  :administrators, 
-            controllers: {
-              sessions: 'admin/sessions',
-              passwords: 'admin/passwords'
-            }"
-  )
+  create_or_replace_folders(['app/views/devise'])
+  run 'bundle exec rails db:migrate'
 end
 
 def add_gems
@@ -57,7 +51,7 @@ end
 
 def install_tailwind
   system 'rails tailwindcss:install'
-  ['app/controllers/admin_controller.rb',
+  [
    'config/initializers/simple_form_tailwind.rb',
    'config/tailwind.config.js'
   ].each do |file|
@@ -81,13 +75,10 @@ end
 def setup_basics
   run "n | rails action_text:install"
   run "./bin/importmap pin tom-select --download"
-  # run 'rails g model Administrator confirmation_token:string email:string encrypted_passwor:string first_name:string last_name:string remember_token:string'
   run 'rails db:migrate; rails db:migrate RAILS_ENV=test'
-  run 'rails g bo User'
   %w[
     db/seeds.rb
     db/seeds/users.rb
-    db/seeds/administrators.rb
   ].each do |file|
     create_or_replace_file(file)
   end

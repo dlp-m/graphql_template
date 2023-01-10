@@ -8,7 +8,7 @@
     </button>
   </div>
   <div data-dropdown-target="menu" class="drop-shadow-md hidden absolute py-5 px-5 left-0 z-10 mt-2 w-[40rem] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-    <%%= search_form_for [:admin, @q],  method: :post, class: "", data: { controller: "search-form", search_form_target: "form", turbo_frame: '<%=class_name.underscore.pluralize%>' } do |f| %>
+    <%%= search_form_for [:<%=options[:namespace].underscore %>, @q],  method: :post, class: "", data: { controller: "search-form", search_form_target: "form", turbo_frame: '<%=class_name.underscore.pluralize%>' } do |f| %>
     <%- bo_model.columns.group_by(&:type).each do |type| -%>
     <!-- columns -->
     <%- type.second.sort_by(&:type).each do |col| -%>
