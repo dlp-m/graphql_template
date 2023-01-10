@@ -4,5 +4,6 @@
   <%= sidebar.with_item(path: admin_blog_posts_path, icon: Icons::CollectionComponent, label: "Post") %>
   <%= sidebar.with_item(path: admin_blog_categories_path, icon: Icons::CollectionComponent, label: "Categories") %>
   <%= sidebar.with_item(path: admin_blog_tags_path, icon: Icons::CollectionComponent, label: "Tags") %>
+  <%= sidebar.with_item(path: admin_frequently_asked_questions_path, icon:Icons::QuestionMarkCircleComponent, label: "Faq") %>
   <%= sidebar.with_current_user_card(user: current_user) %>
 <% end %>

@@ -18,10 +18,17 @@ class BoGenerator < Rails::Generators::NamedBase
     template 'show.html.erb', File.join('app/views/admin', "#{file_name.pluralize}/show.html.erb")
     template 'controller.rb', File.join('app/controllers/admin', "#{file_name.pluralize}_controller.rb")
     create_translations
+    create_routes
   end
 
   def bo_model
     class_name.constantize
+  end
+
+  def create_routes
+   inject_into_file 'config/routes.rb', after: "namespace :admin do\n" do 
+    "resources :#{file_name.pluralize}\n"
+    end
   end
 
   def model_columns

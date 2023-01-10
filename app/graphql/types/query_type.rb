@@ -9,7 +9,7 @@ module Types
 
     # Custom show queries
     field :current_user, Types::UserType, authorize: true, null: true
-
+    # Index Queries
     # Internal methods
     def self.define_show_field(query)
       graphql_type = "Types::#{query.camelcase}Type".safe_constantize

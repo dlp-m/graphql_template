@@ -16,8 +16,11 @@ module Resolvers
       description 'Available columns for ordering'
 
       graphql_name '<%= class_name %>OrderColumn'
-      value 'CREATED_AT', value: :created_at
-      value 'UPDATED_AT', value: :updated_at
+
+    <%- class_name.constantize.columns.each do |column| -%>
+    <%- next unless base_order_columns.include?(column.name.to_sym) -%>
+      value '<%= column.name.to_sym.upcase %>', value: :<%= column.name %>
+    <%- end -%>
     end
 
     class <%= class_name %>OrderCriteria < Types::BaseInputObject
