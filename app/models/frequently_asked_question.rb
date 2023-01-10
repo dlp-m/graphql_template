@@ -7,6 +7,10 @@ class FrequentlyAskedQuestion < ApplicationRecord
   validate :content_present
   # Associations
   has_rich_text :content
+  has_one :action_text_rich_text,
+          dependent: :destroy,
+          class_name: 'ActionText::RichText',
+          as: :record
   # Callbacks
   before_save :set_position
   # Scopes
