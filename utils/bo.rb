@@ -1,11 +1,9 @@
-require 'pry'
 def configure_bo
   custom_log(__method__)
   add_gems
   run 'bin/setup'
   install_tailwind
   setup_base_files
-  change_title
   setup_basics
   setup_devise
   run 'rails g bo User'
@@ -106,13 +104,6 @@ def generate_blog
   run 'rails g bo BlogPost'
   run 'rails g bo BlogCategory'
   run 'rails g bo BlogTag'
-end
-
-def change_title
-  file = "app/views/layouts/admin.html.erb"
-  text = File.read(file)
-  new_contents = text.gsub(/BaseApi/, "#{@app_const_base.underscore.humanize}")
-  File.open(file, "w") {|f| f.puts new_contents }
 end
 
 def generate_faq
