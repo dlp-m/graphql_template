@@ -4,5 +4,5 @@
       <%= @user.email %>
     </p>
   </div>
-  <%= render(SignOutButtonComponent.new) %>
+  <%= render(SignOutButtonComponent.new(resource: @user.class.name.underscore)) %>
 </div>
