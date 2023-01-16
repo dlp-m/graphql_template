@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>BaseApi</title>
+    <title>BO-<%= I18n.t("bo.#{class_name.underscore}.others") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%%= csrf_meta_tags %>
     <%%= csp_meta_tag %>
@@ -12,10 +12,10 @@
   </head>
 
   <body class="h-full bg-home">
-    <%% if <%= class_name.downcase %>_signed_in? %>
-      <%%= render('<%= class_name.downcase.pluralize %>/layouts/side_bar') %>
+    <%% if <%= class_name.underscore %>_signed_in? %>
+      <%%= render('<%= class_name.underscore.pluralize %>/layouts/side_bar') %>
     <%% end %>
-    <div class="<%%= 'md:pl-64' if <%= class_name.downcase %>_signed_in? %> flex flex-col flex-1">
+    <div class="<%%= 'md:pl-64' if <%= class_name.underscore %>_signed_in? %> flex flex-col flex-1">
       <main>
         <div class="py-6">
         <%%= render('layouts/flash') %>

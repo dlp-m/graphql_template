@@ -9,8 +9,6 @@ class BoNamespaceGenerator < Rails::Generators::NamedBase
     template 'admin_controller.rb', File.join('app/controllers/', "#{singular_name}_controller.rb")
     template 'seeds.rb', File.join('db/seeds/', "#{plural_name}.rb")
     template 'side_bar.html.erb', File.join('app/views/', "#{plural_name}/layouts/_side_bar.html.erb")
-    create_directories
-    add_seed_file
   end
 
   def create_directories
@@ -37,18 +35,10 @@ class BoNamespaceGenerator < Rails::Generators::NamedBase
 
   def create_routes_and_views
     run "rails g bo #{singular_name.camelize} --namespace #{plural_name}"
-    devise_route = "  devise_for :#{singular_name},
-                path: '#{plural_name}',
-                controllers: {
-                  sessions: 'custom_devise/sessions',
-                  passwords: 'custom_devise/passwords'
-                }\n"
+    devise_route = "devise_for :#{singular_name},\n           path: '#{plural_name}',\n           controllers: {\n             sessions: 'custom_devise/sessions',\n             passwords: 'custom_devise/passwords',\n             registrations: 'custom_devise/registrations'\n           }"
     gsub_file('config/routes.rb', /devise_for :#{plural_name}/, '')
     route devise_route
-    route "namespace :#{plural_name} do
-            root to:  '#{plural_name}#index'
-            resources :#{plural_name}
-           end"
+    route "# #{plural_name.capitalize}\nnamespace :#{plural_name} do\n  root to: '#{plural_name}#index'\n  resources :#{plural_name}\nend"
   end
 end
 

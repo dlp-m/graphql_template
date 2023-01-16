@@ -31,7 +31,7 @@ class BoGenerator < Rails::Generators::NamedBase
 
   def create_routes
     inject_into_file 'config/routes.rb', after: " namespace :#{options[:namespace]} do\n" do 
-      "resources :#{plural_name} \n"
+      "    resources :#{plural_name} \n"
     end
   end
 

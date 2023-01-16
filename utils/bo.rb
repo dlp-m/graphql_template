@@ -16,20 +16,12 @@ end
 def setup_devise
   run 'bundle exec rails g devise:install'
   run 'bundle exec rails db:migrate'
-   %w[
-    config/initializers/devise.rb
-    app/controllers/custom_devise/confirmations_controller.rb
-    app/controllers/custom_devise/omniauth_callbacks_controller.rb
-    app/controllers/custom_devise/passwords_controller.rb
-    app/controllers/custom_devise/registrations_controller.rb
-    app/controllers/custom_devise/sessions_controller.rb
-    app/controllers/custom_devise/unlocks_controller.rb
-  ].each do |file|
-    create_or_replace_file(file)
-  end
+  create_or_replace_file('config/initializers/devise.rb')
   run 'rails g bo_namespace Administrator'
   run 'bundle exec rails db:migrate'
-  create_or_replace_folders(['app/views/devise'])
+  ['app/controllers/custom_devise', 'app/views/devise'].each do |folder|
+    create_or_replace_folders(Dir["#{source_paths.first}/#{folder}/*"])
+  end
   run 'bundle exec rails db:migrate'
 end
 
