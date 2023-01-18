@@ -7,7 +7,7 @@ def configure_graphql
 
   system "bundle install"
   remove_file "app/graphql/types/node_type.rb"
-  create_or_replace_folders(Dir["#{source_paths.first}/app/graphql/*"])
+  create_or_replace_folders(files: Dir["#{source_paths.first}/app/graphql/*"])
   %w[
     app/controllers/api_controller.rb
     app/controllers/graphql_controller.rb
