@@ -71,6 +71,7 @@ def setup_base_files
   ].each do |folder|
     create_or_replace_folders(files: Dir["#{source_paths.first}/#{folder}"])
   end
+  create_or_replace_file('config/initializers/ransack.rb')
 end
 
 def setup_basics
