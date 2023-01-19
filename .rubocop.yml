@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 require:
   - rubocop-rails
   - rubocop-performance
@@ -13,6 +15,11 @@ AllCops:
     - 'db/schema.rb'
     - 'node_modules/**/*'
     - 'lib/generators/**/*'
+    - 'config/initializers/simple_form_tailwind.rb'
+    - 'config/initializers/devise.rb'
+Lint/MissingSuper:
+  Exclude:
+    - 'app/components/**/*.rb'
 Bundler/OrderedGems:
   Enabled: false
 Style/Documentation:

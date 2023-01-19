@@ -2,14 +2,25 @@ def configure_bo
   custom_log(__method__)
   add_gems
   run 'bin/setup'
-  install_tailwind
+  setup_tailwind
   setup_base_files
-  change_title
   setup_basics
+  setup_devise
+  setup_mailer
+  run 'rails g bo User'
   generate_blog if yes?("Generate blog ?")
   generate_faq if yes?("Generate F.A.Q ?")
   run 'bundle exec rails db:seed'
   run "git add . ; git commit -m 'feat: setup bo'"
+end
+
+def setup_devise
+  run 'bundle exec rails g devise:install'
+  run 'bundle exec rails db:migrate'
+  create_or_replace_file('config/initializers/devise.rb')
+  run 'rails g bo_namespace Administrator'
+  run 'bundle exec rails db:migrate'
+  run 'bundle exec rails db:migrate'
 end
 
 def add_gems
@@ -20,14 +31,26 @@ def add_gems
   gem 'simple_form-tailwind'
   gem 'ransack'
   gem 'pagy'
+  gem 'devise'
   gem_group :development, :test do
     gem 'hotwire-livereload'
   end
 end
 
-def install_tailwind
+def setup_mailer
+  gem 'mailersend-ruby'
+  ['.env', '.env.exemple'].each { |file |create_or_replace_file(file) } 
+  system "echo .env >> .gitignore"
+  inject_into_file 'config/environments/development.rb', after: "config.action_mailer.perform_caching = false\n" do 
+    <<-'RUBY'
+    config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+    RUBY
+  end
+end
+
+def setup_tailwind
   system 'rails tailwindcss:install'
-  ['app/controllers/admin_controller.rb',
+  [
    'config/initializers/simple_form_tailwind.rb',
    'config/tailwind.config.js'
   ].each do |file|
@@ -42,23 +65,21 @@ def setup_base_files
     'app/views/*',
     'app/components/*',
     'lib/generators/*',
-    'app/assets/stylesheets/*'
+    'app/assets/stylesheets/*',
+    'app/controllers/custom_devise/*',
+    'app/mailers/*'
   ].each do |folder|
-    create_or_replace_folders(Dir["#{source_paths.first}/#{folder}"])
+    create_or_replace_folders(files: Dir["#{source_paths.first}/#{folder}"])
   end
 end
 
 def setup_basics
   run "n | rails action_text:install"
   run "./bin/importmap pin tom-select --download"
-  run 'rails g model Administrator confirmation_token:string email:string encrypted_password:string first_name:string last_name:string remember_token:string'
   run 'rails db:migrate; rails db:migrate RAILS_ENV=test'
-  run 'rails g bo Administrator'
-  run 'rails g bo User'
   %w[
     db/seeds.rb
     db/seeds/users.rb
-    db/seeds/administrators.rb
   ].each do |file|
     create_or_replace_file(file)
   end
@@ -88,13 +109,6 @@ def generate_blog
   run 'rails g bo BlogTag'
 end
 
-def change_title
-  file = "app/views/layouts/admin.html.erb"
-  text = File.read(file)
-  new_contents = text.gsub(/BaseApi/, "#{@app_const_base.underscore.humanize}")
-  File.open(file, "w") {|f| f.puts new_contents }
-end
-
 def generate_faq
   run 'rails g model FrequentlyAskedQuestion title:string position:integer content:rich_text'
   run 'rails db:migrate; rails db:migrate RAILS_ENV=test'
@@ -106,13 +120,13 @@ def generate_faq
   end
   run 'rails g bo FrequentlyAskedQuestion'
   run 'rails g gql FrequentlyAskedQuestion'
-  toto
+  update_faq_resolver
   create_or_replace_file('spec/fabricators/frequently_asked_question_fabricator.rb')
   create_or_replace_file('spec/graphql/queries/frequently_asked_questions_spec.rb')
   create_or_replace_file('app/policies/frequently_asked_question_policy.rb')
 end
 
-def toto
+def update_faq_resolver
   inject_into_file 'app/graphql/resolvers/frequently_asked_question_resolver.rb', after: "DEFAULT_ORDER = { column: :created_at, direction: :asc }.freeze\n\n" do 
     <<-'RUBY'
     option(
