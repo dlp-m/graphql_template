@@ -13,7 +13,7 @@
   <%%= turbo_frame_tag "<%= class_name.underscore.pluralize %>", class: "shadow overflow-hidden rounded border-b border-gray-200" do %>
     <%%= render('table') %>
     <div class="py-2">
-      <%%== pagy_nav(@pagy) %>
+      <%%== render partial: 'shared/pagination', locals: { pagy: @pagy } %>
     </div>
   <%% end %>
 <%% end %>
