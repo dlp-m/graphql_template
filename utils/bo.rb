@@ -1,11 +1,10 @@
+# frozen_string_literal: true
+
 def configure_bo
   custom_log(__method__)
   add_gems
   run 'bin/setup'
-  setup_tailwind
-  setup_base_files
   setup_basics
-  setup_devise
   setup_mailer
   run 'rails g bo User'
   generate_blog if yes?("Generate blog ?")
@@ -14,24 +13,13 @@ def configure_bo
   run "git add . ; git commit -m 'feat: setup bo'"
 end
 
-def setup_devise
-  run 'bundle exec rails g devise:install'
-  run 'bundle exec rails db:migrate'
-  create_or_replace_file('config/initializers/devise.rb')
-  run 'rails g bo_namespace Administrator'
-  run 'bundle exec rails db:migrate'
-  run 'bundle exec rails db:migrate'
-end
-
 def add_gems
   gem 'acts_as_list'
-  gem 'view_component'
-  gem 'tailwindcss-rails'
-  gem 'simple_form'
-  gem 'simple_form-tailwind'
-  gem 'ransack'
-  gem 'pagy'
-  gem 'devise'
+  gem 'tybo', '~> 0.0.26'
+  gem 'devise', '~> 4.8', '>= 4.8.1'
+  run 'bundle install'
+  run 'rails g tybo_install'
+  run 'bundle exec rails db:seed'
   gem_group :development, :test do
     gem 'hotwire-livereload'
   end
@@ -46,37 +34,11 @@ def setup_mailer
     config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
     RUBY
   end
-end
-
-def setup_tailwind
-  system 'rails tailwindcss:install'
-  [
-   'config/initializers/simple_form_tailwind.rb',
-   'config/tailwind.config.js'
-  ].each do |file|
-    create_or_replace_file(file)
-  end
-end
-
-def setup_base_files
-  [
-    'app/helpers/*',
-    'app/javascript/*',
-    'app/views/*',
-    'app/components/*',
-    'lib/generators/*',
-    'app/assets/stylesheets/*',
-    'app/controllers/custom_devise/*',
-    'app/mailers/*'
-  ].each do |folder|
-    create_or_replace_folders(files: Dir["#{source_paths.first}/#{folder}"])
-  end
-  create_or_replace_file('config/initializers/ransack.rb')
+  create_or_replace_folders(files: Dir["#{source_paths.first}/app/mailers/*"])
 end
 
 def setup_basics
   run "n | rails action_text:install"
-  run "./bin/importmap pin tom-select --download"
   run 'rails db:migrate; rails db:migrate RAILS_ENV=test'
   %w[
     db/seeds.rb

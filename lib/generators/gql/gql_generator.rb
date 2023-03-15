@@ -40,8 +40,8 @@ class GqlGenerator < Rails::Generators::NamedBase
       integer: 'Int',
       float: 'Float',
       boolean: 'Boolean',
-      datetime: 'ISO8601DateTime',
-      date: 'ISO8601Date',
+      datetime: 'GraphQL::Types::ISO8601DateTime',
+      date: 'GraphQL::Types::ISO8601Date',
       json: 'JSON'
     }
     types[type]

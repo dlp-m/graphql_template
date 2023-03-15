@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def configure_gemfile
   custom_log(__method__)
   gem "graphql"

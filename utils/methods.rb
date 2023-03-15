@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 def create_or_replace_file(file)
   remove_file file

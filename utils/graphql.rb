@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def configure_graphql
   custom_log(__method__)
   system "rails generate graphql:install"
@@ -7,6 +9,7 @@ def configure_graphql
 
   system "bundle install"
   remove_file "app/graphql/types/node_type.rb"
+  create_or_replace_folders(files: Dir["#{source_paths.first}/lib/generators/*"])
   create_or_replace_folders(files: Dir["#{source_paths.first}/app/graphql/*"])
   %w[
     app/controllers/api_controller.rb

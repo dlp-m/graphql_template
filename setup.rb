@@ -9,12 +9,14 @@ require_relative 'utils/clearance.rb'
 require_relative 'utils/bo.rb'
 require_relative 'utils/rspec.rb'
 require_relative 'utils/chore.rb'
+require_relative 'utils/tools.rb'
 
 def source_paths
   [__dir__]
 end
 # we need to add doorkeeper first because it raise an errors
 after_bundle do
+  configure_tools
   create_or_replace_file("config/initializers/doorkeeper.rb")
   configure_git
   configure_gemfile

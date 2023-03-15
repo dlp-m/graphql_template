@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def chore
   custom_log(__method__)
   system "echo coverage/**/* >> .gitignore"
