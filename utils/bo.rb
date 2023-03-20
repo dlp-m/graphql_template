@@ -15,7 +15,7 @@ end
 
 def add_gems
   gem 'acts_as_list'
-  gem 'tybo', '~> 0.0.26'
+  gem 'tybo', '~> 0.0.32'
   gem 'devise', '~> 4.8', '>= 4.8.1'
   run 'bundle install'
   run 'rails g tybo_install'
