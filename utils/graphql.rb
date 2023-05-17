@@ -6,10 +6,10 @@ def configure_graphql
   gem 'graphql_playground-rails'
   gem 'graphql-rails_logger'
   gem 'dry-effects'
-
+  gem 'ralphql'
   system "bundle install"
   remove_file "app/graphql/types/node_type.rb"
-  create_or_replace_folders(files: Dir["#{source_paths.first}/lib/generators/*"])
+  # create_or_replace_folders(files: Dir["#{source_paths.first}/lib/generators/*"])
   create_or_replace_folders(files: Dir["#{source_paths.first}/app/graphql/*"])
   %w[
     app/controllers/api_controller.rb

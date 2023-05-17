@@ -15,9 +15,10 @@ end
 
 def add_gems
   gem 'acts_as_list'
-  gem 'tybo', '~> 0.0.32'
+  gem 'tybo'
   gem 'devise', '~> 4.8', '>= 4.8.1'
   run 'bundle install'
+  gem 'erb_lint', require: false
   run 'rails g tybo_install'
   run 'bundle exec rails db:seed'
   gem_group :development, :test do
@@ -46,6 +47,7 @@ def setup_basics
   ].each do |file|
     create_or_replace_file(file)
   end
+  create_or_replace_folders(files: Dir["#{source_paths.first}/app/assets/images/*"])
 end
 
 def generate_blog
