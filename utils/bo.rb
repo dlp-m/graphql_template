@@ -51,8 +51,10 @@ def setup_basics
 end
 
 def generate_blog
+  gem 'friendly_id'
+  run 'bundle'
   run 'rails g model BlogCategory name:string'
-  run 'rails g model BlogPost title:string administrator:references blog_category:references content:rich_text'
+  run 'rails g model BlogPost title:string administrator:references blog_category:references content:rich_text meta_description:text meta_keywords:string meta_title:string slug:string publication_date:datetime published:boolean'
   run 'rails g model BlogTag name:string'
   run 'rails g model blog_post_blog_tag blog_tag:references blog_post:references'
   run 'rails db:migrate; rails db:migrate RAILS_ENV=test;'
@@ -72,6 +74,7 @@ def generate_blog
   run 'rails g bo BlogPost'
   run 'rails g bo BlogCategory'
   run 'rails g bo BlogTag'
+  create_or_replace_file('app/controllers/administrators/blog_posts_controller.rb')
 end
 
 def generate_faq

@@ -2,6 +2,7 @@
 
 def configure_tools
   custom_log(__method__)
+  create_or_replace_file('config/initializers/colorize_logs.rb')
   create_or_replace_folders(files: Dir["#{source_paths.first}/scripts/*"])
   Dir['scripts/*'].each do |file|
     gsub_file(file, /project-api/, @app_const_base.underscore.gsub("_", "-"))
