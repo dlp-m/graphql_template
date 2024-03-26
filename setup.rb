@@ -25,7 +25,7 @@ after_bundle do
   configure_annotate
   configure_rubocop
   configure_clearance
-  configure_bo
+  configure_bo  if yes?("Generate tybo ?")
   configure_rspec
   chore
 end
