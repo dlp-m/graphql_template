@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def configure_gemfile
   custom_log(__method__)
   gem "graphql"
@@ -11,7 +13,10 @@ def configure_gemfile
   gem 'globalid'
   gem 'rspec_api_documentation'
   gem 'activerecord_where_assoc'
+
   gem_group :development, :test do
+    gem "colorize_logs"
+    # Shim to load environment variables from .env into ENV in development.
     gem 'dotenv-rails'
     # Call 'byebug' anywhere in the code to stop execution and get a debugger console
     gem 'byebug', platforms: %i[mri mingw x64_mingw]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def configure_doorkeerper
   custom_log(__method__)
   system "echo n | bundle exec rails generate doorkeeper:install"

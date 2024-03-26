@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def configure_rubocop
   custom_log(__method__)
   create_or_replace_file('.rubocop.yml')

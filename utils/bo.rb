@@ -1,11 +1,10 @@
+# frozen_string_literal: true
+
 def configure_bo
   custom_log(__method__)
   add_gems
   run 'bin/setup'
-  setup_tailwind
-  setup_base_files
   setup_basics
-  setup_devise
   setup_mailer
   run 'rails g bo User'
   generate_blog if yes?("Generate blog ?")
@@ -14,24 +13,14 @@ def configure_bo
   run "git add . ; git commit -m 'feat: setup bo'"
 end
 
-def setup_devise
-  run 'bundle exec rails g devise:install'
-  run 'bundle exec rails db:migrate'
-  create_or_replace_file('config/initializers/devise.rb')
-  run 'rails g bo_namespace Administrator'
-  run 'bundle exec rails db:migrate'
-  run 'bundle exec rails db:migrate'
-end
-
 def add_gems
   gem 'acts_as_list'
-  gem 'view_component'
-  gem 'tailwindcss-rails'
-  gem 'simple_form'
-  gem 'simple_form-tailwind'
-  gem 'ransack'
-  gem 'pagy'
-  gem 'devise'
+  gem 'tybo'
+  gem 'devise', '~> 4.8', '>= 4.8.1'
+  run 'bundle install'
+  gem 'erb_lint', require: false
+  run 'rails g tybo_install'
+  run 'bundle exec rails db:seed'
   gem_group :development, :test do
     gem 'hotwire-livereload'
   end
@@ -46,37 +35,11 @@ def setup_mailer
     config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
     RUBY
   end
-end
-
-def setup_tailwind
-  system 'rails tailwindcss:install'
-  [
-   'config/initializers/simple_form_tailwind.rb',
-   'config/tailwind.config.js'
-  ].each do |file|
-    create_or_replace_file(file)
-  end
-end
-
-def setup_base_files
-  [
-    'app/helpers/*',
-    'app/javascript/*',
-    'app/views/*',
-    'app/components/*',
-    'lib/generators/*',
-    'app/assets/stylesheets/*',
-    'app/controllers/custom_devise/*',
-    'app/mailers/*'
-  ].each do |folder|
-    create_or_replace_folders(files: Dir["#{source_paths.first}/#{folder}"])
-  end
-  create_or_replace_file('config/initializers/ransack.rb')
+  create_or_replace_folders(files: Dir["#{source_paths.first}/app/mailers/*"])
 end
 
 def setup_basics
   run "n | rails action_text:install"
-  run "./bin/importmap pin tom-select --download"
   run 'rails db:migrate; rails db:migrate RAILS_ENV=test'
   %w[
     db/seeds.rb
@@ -84,11 +47,14 @@ def setup_basics
   ].each do |file|
     create_or_replace_file(file)
   end
+  create_or_replace_folders(files: Dir["#{source_paths.first}/app/assets/images/*"])
 end
 
 def generate_blog
+  gem 'friendly_id'
+  run 'bundle'
   run 'rails g model BlogCategory name:string'
-  run 'rails g model BlogPost title:string administrator:references blog_category:references content:rich_text'
+  run 'rails g model BlogPost title:string administrator:references blog_category:references content:rich_text meta_description:text meta_keywords:string meta_title:string slug:string publication_date:datetime published:boolean'
   run 'rails g model BlogTag name:string'
   run 'rails g model blog_post_blog_tag blog_tag:references blog_post:references'
   run 'rails db:migrate; rails db:migrate RAILS_ENV=test;'
@@ -108,6 +74,7 @@ def generate_blog
   run 'rails g bo BlogPost'
   run 'rails g bo BlogCategory'
   run 'rails g bo BlogTag'
+  create_or_replace_file('app/controllers/administrators/blog_posts_controller.rb')
 end
 
 def generate_faq

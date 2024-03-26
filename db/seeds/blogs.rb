@@ -20,7 +20,10 @@ if Rails.env.development?
       blog_category: category,
       title: Faker::Lorem.sentence,
       content: Faker::Lorem.paragraph,
-      administrator: Administrator.all.sample
+      administrator: Administrator.all.sample,
+      meta_description: Faker::Lorem.paragraph,
+      meta_keywords: Faker::Lorem.words,
+      meta_title: Faker::Lorem.sentence
     )
     post.blog_tags << BlogTag.all.sample(3)
   end

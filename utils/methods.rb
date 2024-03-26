@@ -1,7 +1,10 @@
+# frozen_string_literal: true
 
 def create_or_replace_file(file)
   remove_file file
   copy_file file, file
+  return if File.extname(file) =~ /(\.jpg|\.jpeg|\.png|\.gif)$/
+
   text = File.read(file)
   new_contents = text.gsub(/ProjectApi/, "#{@app_const_base}")
   File.open(file, "w") {|f| f.puts new_contents }

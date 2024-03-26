@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def configure_rspec
   custom_log(__method__)
   system "rails generate rspec:install"
